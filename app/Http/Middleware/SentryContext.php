@@ -15,21 +15,23 @@ class SentryContext
      */
     public function handle($request, Closure $next)
     {
-        if (app()->bound('sentry')) {
-            /** @var \Raven_Client $sentry */
-            $sentry = app('sentry');
+        if (app()->environment('production')) {
+            if (app()->bound('sentry')) {
+                /** @var \Raven_Client $sentry */
+                $sentry = app('sentry');
 
-            $is_logged_in = auth()->check();
+                $is_logged_in = auth()->check();
 
-            // Add user context
-            if ($is_logged_in) {
-                $user = auth()->user();
+                // Add user context
+                if ($is_logged_in) {
+                    $user = auth()->user();
 
-                $sentry->user_context([
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                ]);
+                    $sentry->user_context([
+                        'id'    => $user->id,
+                        'name'  => $user->name,
+                        'email' => $user->email,
+                    ]);
+                }
             }
         }
 
