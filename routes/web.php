@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('students', function () {
+    // error
+    return Student::all();
+});
