@@ -19,3 +19,7 @@ Route::get('students', function () {
     // error
     return Student::all();
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
